@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { NavigationContainer } from "@react-navigation/native";
+import HomeScreen from "./components/HomeScreen";
+import { useState } from "react";
+import PreferencesScreen from "./components/PreferencesScreen";
+
+const Drawer = createDrawerNavigator();
 
 export default function App() {
+
+  // state variable for theme
+  const [bgColor, setBgColor] = useState("#1ecbe1");
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home">
+          {({ navigation }) => (
+            <HomeScreen
+              bgColor={bgColor}
+              setBgColor={setBgColor}
+              navigation={navigation}
+            />
+          )}
+        </Drawer.Screen>
+        <Drawer.Screen name="Preferences">
+          {() => (
+            <PreferencesScreen bgColor={bgColor} setBgColor={setBgColor} />
+          )}
+        </Drawer.Screen>
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
